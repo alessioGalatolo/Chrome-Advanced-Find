@@ -1,0 +1,44 @@
+/* extension message style */
+div#saved-expressions-body {
+    overflow: hidden;
+}
+
+div#saved-expressions-body-header-container {
+    margin-bottom: 5px;
+}
+
+div#saved-expressions-entry-list {
+    max-height: 300px;
+    overflow: auto;
+}
+
+div.saved-expression-entry {
+    margin: 3px 3px 5px 3px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+    border-radius: 3px;
+    background-color: #fff;
+    display: flex;
+}
+
+button.saved-expression-entry-button {
+    width: 100%;
+    text-align: left;
+    padding-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.saved-expression-entry-text {
+    margin-left: 5px;
+}
+
+div#saved-expressions-body-controls {
+    float: right;
+    margin-top: 5px;
+}
+
+button.controls-button.delete-saved-expression-entry-button {
+    background-image: url(/popup/img/icon/cross.svg);
+    background-size: 12px 12px;
+}
