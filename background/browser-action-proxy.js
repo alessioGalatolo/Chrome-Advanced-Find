@@ -73,7 +73,7 @@ Find.register("Background.BrowserActionProxy", function() {
             case 'follow_link':
                 Find.Background.followLinkUnderFocus(message, tab, sendResponse);
                 break;
-            case 'browser_action_init':
+            case 'action_init':
                 Find.Background.initializeBrowserAction(message, tab, sendResponse);
                 break;
             case 'get_occurrence':

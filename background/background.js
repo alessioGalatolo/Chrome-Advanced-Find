@@ -21,7 +21,7 @@ Find.register("Background", function(self) {
     Find.browser.contextMenus.removeAll(() => {
         Find.browser.contextMenus.create({
             title: "Show Help",
-            contexts: ["browser_action"],
+            contexts: ["action"],
             id: 'show-help'
         });
 
@@ -84,7 +84,7 @@ Find.register("Background", function(self) {
                 index = response.index || 0;
             }
 
-            sendResponse({action: 'browser_action_init', response: resp});
+            sendResponse({action: 'action_init', response: resp});
         });
     };
 

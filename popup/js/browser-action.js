@@ -13,7 +13,7 @@ Find.register('Popup.BrowserAction', function (self) {
      * */
     self.init = function() {
         Find.Popup.BackgroundProxy.openConnection();
-        Find.Popup.BackgroundProxy.postMessage({action: 'browser_action_init'});
+        Find.Popup.BackgroundProxy.postMessage({action: 'action_init'});
 
         document.body.addEventListener('keyup', (e) => {
             if(e.code === 'KeyO' && e.ctrlKey && e.altKey) {

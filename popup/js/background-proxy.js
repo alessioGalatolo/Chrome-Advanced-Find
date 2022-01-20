@@ -50,7 +50,7 @@ Find.register('Popup.BackgroundProxy', function (self) {
             case 'install':
                 Find.Popup.BrowserAction.showInstallUpdateDetails(response.details);
                 break;
-            case 'browser_action_init':
+            case 'action_init':
                 Find.Popup.BrowserAction.startExtension(response.response);
                 break;
             case 'index_update':
