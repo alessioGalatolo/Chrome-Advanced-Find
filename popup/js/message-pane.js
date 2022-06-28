@@ -3,7 +3,7 @@
 /**
  * Create the Popup MessagePane namespace.
  * */
-Find.register('Popup.MessagePane', function (self) {
+register('Popup.MessagePane', function (self) {
 
     /**
      * Display an error message that indicates that the current URL is forbidden.

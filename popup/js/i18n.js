@@ -3,7 +3,7 @@
 /**
  * Create the Popup BackgroundProxy namespace.
  * */
-Find.register('Popup.i18n', function (self) {
+register('Popup.i18n', function (self) {
 
     /**
      * Internationalize the browser action popup.
@@ -38,6 +38,6 @@ Find.register('Popup.i18n', function (self) {
      * @return {string} The localized string.
      * */
     self.getLocalizedString = function(messageKey) {
-        return Find.browser.i18n.getMessage(messageKey);
+        return browser.i18n.getMessage(messageKey);
     };
 });

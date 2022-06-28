@@ -4,7 +4,7 @@
  * Create the Background ContentProxy namespace. Serves as mediator between the content
  * in the web page and the background scripts.
  * */
-Find.register("Background.ContentProxy", function(self) {
+register("Background.ContentProxy", function(self) {
 
     /**
      * Request from a given page a representation of the text nodes in the page's document.
@@ -14,7 +14,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [error] - Callback function for handing an error.
      * */
     self.buildDocumentRepresentation = function(tab, callback, error) {
-        Find.browser.tabs.sendMessage(tab.id, {action: 'init'}, (response) => {
+        browser.tabs.sendMessage(tab.id, {action: 'init'}, (response) => {
             if(response && response.model) {
                 callback(response.model);
             } else if(error) {
@@ -31,7 +31,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when the page is restored.
      * */
     self.restoreWebPage = function(tab, nodeReferences, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab.id, {
             action: 'restore',
             uuids: nodeReferences
         }, callback);
@@ -48,7 +48,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when the page highlights are updated.
      * */
     self.updatePageHighlights = function(tab, regex, index, occurrenceMap, options, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab.id, {
             action: 'update',
             occurrenceMap: occurrenceMap,
             index: index,
@@ -66,7 +66,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when complete.
      * */
     self.seekHighlight = function(tab, index, options, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab.id, {
             action: 'seek',
             index: index,
             options: options
@@ -80,7 +80,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when the highlights are removed from the page.
      * */
     self.clearPageHighlights = function(tab, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {action: 'highlight_restore'}, callback);
+        browser.tabs.sendMessage(tab.id, {action: 'highlight_restore'}, callback);
     };
 
     /**
@@ -93,7 +93,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when the occurrence is replaced.
      * */
     self.replaceOccurrence = function(tab, index, replaceWith, options, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab.id, {
             action: 'replace',
             index: index,
             replaceWith: replaceWith,
@@ -110,7 +110,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked when the occurrences are replaced.
      * */
     self.replaceAllOccurrences = function(tab, replaceWith, options, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab.id, {
             action: 'replace_all',
             replaceWith: replaceWith,
             options: options
@@ -124,7 +124,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked once the operation is complete.
      * */
     self.followLinkUnderFocus = function(tab, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {action: 'follow_link'}, callback);
+        browser.tabs.sendMessage(tab.id, {action: 'follow_link'}, callback);
     };
 
     /**
@@ -135,7 +135,7 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} callback - Callback invoked once the operation is complete.
      * */
     self.fetch = function(tab, callback) {
-        Find.browser.tabs.sendMessage(tab.id, {action: 'fetch'}, callback);
+        browser.tabs.sendMessage(tab.id, {action: 'fetch'}, callback);
     };
 
     /**
@@ -147,6 +147,6 @@ Find.register("Background.ContentProxy", function(self) {
      * @param {function} [callback] - Callback invoked once the operation is complete.
      * */
     self.executeScript = function(tab, details, callback) {
-        Find.browser.tabs.executeScript(tab.id, details, callback);
+        browser.tabs.executeScript(tab.id, details, callback);
     };
 });

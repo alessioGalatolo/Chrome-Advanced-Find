@@ -3,8 +3,8 @@
 /**
  * Create the Popup BackgroundProxy namespace.
  * */
-Find.register('Popup.BackgroundProxy', function (self) {
-    let port = Find.browser.runtime.connect({name: 'popup_to_background_port'});
+register('Popup.BackgroundProxy', function (self) {
+    let port = browser.runtime.connect({name: 'popup_to_background_port'});
 
     /**
      * Register the port message listener.
@@ -48,27 +48,27 @@ Find.register('Popup.BackgroundProxy', function (self) {
     function messageHandler(response) {
         switch(response.action) {
             case 'install':
-                Find.Popup.BrowserAction.showInstallUpdateDetails(response.details);
+                Popup.BrowserAction.showInstallUpdateDetails(response.details);
                 break;
             case 'action_init':
-                Find.Popup.BrowserAction.startExtension(response.response);
+                Popup.BrowserAction.startExtension(response.response);
                 break;
             case 'index_update':
-                Find.Popup.BrowserAction.updateIndex(response.index, response.total);
+                Popup.BrowserAction.updateIndex(response.index, response.total);
                 break;
             case 'get_occurrence':
-                Find.Popup.BrowserAction.copyTextToClipboard(response.response);
+                Popup.BrowserAction.copyTextToClipboard(response.response);
                 break;
             case 'invalidate':
-                Find.Popup.BrowserAction.updateSearch();
+                Popup.BrowserAction.updateSearch();
                 break;
             case 'close':
-                Find.Popup.BrowserAction.closeExtension();
+                Popup.BrowserAction.closeExtension();
                 break;
             case 'empty_regex':
             case 'invalid_regex':
             default:
-                Find.Popup.BrowserAction.error(response.action);
+                Popup.BrowserAction.error(response.action);
         }
     }
 });

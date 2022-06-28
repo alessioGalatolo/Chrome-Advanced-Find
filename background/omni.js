@@ -4,18 +4,18 @@
  * Create the Background Omni namespace. Registers various event listeners which invoke
  * the appropriate background functions.
  * */
-Find.register("Background.Omni", function(self) {
+register("Background.Omni", function(self) {
 
-    Find.browser.omnibox.onInputStarted.addListener(() => {
-        Find.browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
-            Find.Background.initializePage(tabs[0]);
+    browser.omnibox.onInputStarted.addListener(() => {
+        browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            Background.initializePage(tabs[0]);
         });
     });
 
     retrieveOptions((options) => {
-        Find.browser.omnibox.onInputChanged.addListener((regex) => {
-            Find.browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
-                Find.Background.updateSearch({regex: regex, options: options}, tabs[0], (result) => {
+        browser.omnibox.onInputChanged.addListener((regex) => {
+            browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                Background.updateSearch({regex: regex, options: options}, tabs[0], (result) => {
                     let description;
                     if (!regex) {
                         description = 'Enter a regular expression';
@@ -25,21 +25,21 @@ Find.register("Background.Omni", function(self) {
                         description = result.error;
                     }
 
-                    Find.browser.omnibox.setDefaultSuggestion({description: description});
+                    browser.omnibox.setDefaultSuggestion({description: description});
                 });
             });
         });
     });
 
-    Find.browser.omnibox.onInputCancelled.addListener(() => {
-        Find.browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
-            Find.Background.restorePageState(tabs[0]);
+    browser.omnibox.onInputCancelled.addListener(() => {
+        browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            Background.restorePageState(tabs[0]);
         });
     });
 
-    Find.browser.omnibox.onInputEntered.addListener(() => {
-        Find.browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
-            Find.Background.restorePageState(tabs[0], false);
+    browser.omnibox.onInputEntered.addListener(() => {
+        browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            Background.restorePageState(tabs[0], false);
         });
     });
 
@@ -83,7 +83,7 @@ Find.register("Background.Omni", function(self) {
      * @return {object} The search options, or null if it does not exist or cannot be retrieved.
      * */
     function retrieveOptions(callback) {
-        Find.browser.storage.local.get('options', (data) => {
+        browser.storage.local.get('options', (data) => {
             let options = data['options'];
             if(!options) {
                 return callback(JSON.parse(JSON.stringify(DEFAULT_OPTIONS)));

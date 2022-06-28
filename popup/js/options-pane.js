@@ -3,7 +3,7 @@
 /**
  * Create the Popup OptionsPane namespace.
  * */
-Find.register('Popup.OptionsPane', function (self) {
+register('Popup.OptionsPane', function (self) {
 
     /**
      * Default options. This object and all of it's properties are immutable.
@@ -42,58 +42,58 @@ Find.register('Popup.OptionsPane', function (self) {
      * Register event handlers and initialize options pane.
      * */
     self.init = function() {
-        Find.Popup.Storage.retrieveOptions((data) => {
+        Popup.Storage.retrieveOptions((data) => {
             options = adaptOptions(data);
             applyOptions();
 
-            Find.Popup.Storage.saveOptions(options);
-            if(Find.incognito) {
-                Find.Popup.Storage.lockStorage(!options.persistent_storage_incognito);
+            Popup.Storage.saveOptions(options);
+            if(incognito) {
+                Popup.Storage.lockStorage(!options.persistent_storage_incognito);
             }
         });
 
         //Add toggle switches event listeners
         document.getElementById('regex-option-regex-disable-toggle').addEventListener('change', (e) => {
             options.find_by_regex = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         document.getElementById('regex-option-case-insensitive-toggle').addEventListener('change', (e) => {
             options.match_case = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         document.getElementById('regex-option-persistent-highlights-toggle').addEventListener('change', (e) => {
             options.persistent_highlights = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         document.getElementById('regex-option-persistent-storage-incognito-toggle').addEventListener('change', (e) => {
             options.persistent_storage_incognito = e.target.checked;
 
-            Find.Popup.Storage.lockStorage(false);
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.Storage.lockStorage(!options.persistent_storage_incognito);
+            Popup.Storage.lockStorage(false);
+            Popup.Storage.saveOptions(options);
+            Popup.Storage.lockStorage(!options.persistent_storage_incognito);
         });
         document.getElementById('hide-option-pane-toggle-option-toggle').addEventListener('change', (e) => {
             options.hide_options_button = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.SearchPane.hideOptionsPaneToggleButton(options.hide_options_button);
+            Popup.Storage.saveOptions(options);
+            Popup.SearchPane.hideOptionsPaneToggleButton(options.hide_options_button);
         });
         document.getElementById('hide-saved-expressions-pane-toggle-option-toggle').addEventListener('change', (e) => {
             options.hide_saved_expressions_button = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.SearchPane.hideSavedExpressionsPaneToggleButton(options.hide_saved_expressions_button);
+            Popup.Storage.saveOptions(options);
+            Popup.SearchPane.hideSavedExpressionsPaneToggleButton(options.hide_saved_expressions_button);
         });
         document.getElementById('hide-copy-to-clipboard-option-toggle').addEventListener('change', (e) => {
             options.hide_clipboard_button = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.SearchPane.hideCopyOccurrencesToClipboardButton(options.hide_clipboard_button);
+            Popup.Storage.saveOptions(options);
+            Popup.SearchPane.hideCopyOccurrencesToClipboardButton(options.hide_clipboard_button);
         });
         document.getElementById('find-replace-toggle-option-toggle').addEventListener('change', (e) => {
             options.hide_find_replace_button = e.target.checked;
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.SearchPane.hideFindReplacePaneToggleButton(options.hide_find_replace_button);
+            Popup.Storage.saveOptions(options);
+            Popup.SearchPane.hideFindReplacePaneToggleButton(options.hide_find_replace_button);
         });
 
         //Add max results slider event listeners
@@ -103,8 +103,8 @@ Find.register('Popup.OptionsPane', function (self) {
             let sliderValue = e.target.value;
             options.max_results = rangeValues[sliderValue];
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         maxResultsSlider.addEventListener('input', (e) => {
             const rangeValues = [1,10,25,50,75,100,150,200,300,400,0];
@@ -120,8 +120,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.index_highlight_color.hue = e.target.value;
             options.index_highlight_color.hexColor = getIndexHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         indexHighlightHueSlider.addEventListener('input', (e) => {
             options.index_highlight_color.hue = e.target.value;
@@ -134,8 +134,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.index_highlight_color.saturation = e.target.value;
             options.index_highlight_color.hexColor = getIndexHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         indexHighlightSaturationSlider.addEventListener('input', (e) => {
             options.index_highlight_color.saturation = e.target.value;
@@ -148,8 +148,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.index_highlight_color.value = e.target.value;
             options.index_highlight_color.hexColor = getIndexHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         indexHighlightValueSlider.addEventListener('input', (e) => {
             options.index_highlight_color.value = e.target.value;
@@ -171,8 +171,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.index_highlight_color.hexColor = hexColor;
 
             applyIndexHighlightColorSliderOptions();
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
 
         //Add all highlight color slider listeners
@@ -181,8 +181,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.all_highlight_color.hue = e.target.value;
             options.all_highlight_color.hexColor = getAllHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         allHighlightHueSlider.addEventListener('input', (e) => {
             options.all_highlight_color.hue = e.target.value;
@@ -195,8 +195,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.all_highlight_color.saturation = e.target.value;
             options.all_highlight_color.hexColor = getAllHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         allHighlightSaturationSlider.addEventListener('input', (e) => {
             options.all_highlight_color.saturation = e.target.value;
@@ -209,8 +209,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.all_highlight_color.saturation = e.target.value;
             options.all_highlight_color.hexColor = getAllHighlightColorCode();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
         allHighlightValueSlider.addEventListener('input', (e) => {
             options.all_highlight_color.value = e.target.value;
@@ -232,8 +232,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options.all_highlight_color.hexColor = hexColor;
 
             applyAllHighlightColorSliderOptions();
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
 
         //Add reset all options button listener
@@ -242,8 +242,8 @@ Find.register('Popup.OptionsPane', function (self) {
             options = JSON.parse(JSON.stringify(DEFAULT_OPTIONS));
             applyOptions();
 
-            Find.Popup.Storage.saveOptions(options);
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.Storage.saveOptions(options);
+            Popup.BrowserAction.updateSearch();
         });
     };
 
@@ -355,10 +355,10 @@ Find.register('Popup.OptionsPane', function (self) {
         document.getElementById('hide-copy-to-clipboard-option-toggle').checked = options.hide_clipboard_button;
         document.getElementById('find-replace-toggle-option-toggle').checked = options.hide_find_replace_button;
 
-        Find.Popup.SearchPane.hideOptionsPaneToggleButton(options.hide_options_button);
-        Find.Popup.SearchPane.hideSavedExpressionsPaneToggleButton(options.hide_saved_expressions_button);
-        Find.Popup.SearchPane.hideCopyOccurrencesToClipboardButton(options.hide_clipboard_button);
-        Find.Popup.SearchPane.hideFindReplacePaneToggleButton(options.hide_find_replace_button);
+        Popup.SearchPane.hideOptionsPaneToggleButton(options.hide_options_button);
+        Popup.SearchPane.hideSavedExpressionsPaneToggleButton(options.hide_saved_expressions_button);
+        Popup.SearchPane.hideCopyOccurrencesToClipboardButton(options.hide_clipboard_button);
+        Popup.SearchPane.hideFindReplacePaneToggleButton(options.hide_find_replace_button);
     }
 
     /**

@@ -3,7 +3,7 @@
 /**
  * Create the Popup SavedExpressionsPane namespace.
  * */
-Find.register('Popup.SavedExpressionsPane', function (self) {
+register('Popup.SavedExpressionsPane', function (self) {
 
 	/**
 	 * Initialize the saved expressions pane. Registers button event handlers, and loads
@@ -19,7 +19,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 		});
 
 		let parentEl = document.getElementById('saved-expressions-entry-list');
-		Find.Popup.Storage.retrieveSavedExpressions((data) => {
+		Popup.Storage.retrieveSavedExpressions((data) => {
 			if(data && data.length) {
 				for(let index = 0; index < data.length; index++) {
 					let entryEl = buildExpressionEntryElement(data[index]);
@@ -67,12 +67,12 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 	 * at the top.
 	 * */
 	self.saveEntry = function() {
-		let regex = Find.Popup.SearchPane.getSearchFieldText();
+		let regex = Popup.SearchPane.getSearchFieldText();
 		if(!regex) {
 			return;
 		}
 
-		Find.Popup.Storage.retrieveSavedExpressions((data) => {
+		Popup.Storage.retrieveSavedExpressions((data) => {
 			if(data) {
 				//Remove existing entry, if it exists
 				for(let index = 0; index < data.length; index++) {
@@ -107,7 +107,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 
 			console.log(data);
 
-			Find.Popup.Storage.saveExpressions(data);
+			Popup.Storage.saveExpressions(data);
 		});
 	};
 
@@ -124,7 +124,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 
 		parentEl.appendChild(buildNullExpressionEntryElement());
 
-		Find.Popup.Storage.saveExpressions([]);
+		Popup.Storage.saveExpressions([]);
 	};
 
 	/**
@@ -138,10 +138,10 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 		// Set search field with regex and update search. Also invoke saveEntry(), which
 		// will place regex at top of saved expression entries and update local storage.
 		let useEntryHandler = (e) => {
-			Find.Popup.SearchPane.setSearchFieldText(e.currentTarget.parentElement.dataset.regex);
+			Popup.SearchPane.setSearchFieldText(e.currentTarget.parentElement.dataset.regex);
 			self.saveEntry();
 
-			Find.Popup.BrowserAction.updateSearch();
+			Popup.BrowserAction.updateSearch();
 		};
 
 		// Remove entry from list and local storage. Also append null entry if no
@@ -152,7 +152,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 
 			entry.parentNode.removeChild(entry);
 
-			Find.Popup.Storage.retrieveSavedExpressions((data) => {
+			Popup.Storage.retrieveSavedExpressions((data) => {
 				if(data) {
 					//Remove existing entry, if it exists
 					for(let index = 0; index < data.length; index++) {
@@ -168,7 +168,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 					parentEl.appendChild(buildNullExpressionEntryElement());
 				}
 
-				Find.Popup.Storage.saveExpressions(data);
+				Popup.Storage.saveExpressions(data);
 			});
 		};
 
@@ -212,7 +212,7 @@ Find.register('Popup.SavedExpressionsPane', function (self) {
 	 * @private
 	 * */
 	function buildNullExpressionEntryElement() {
-		let text = Find.Popup.i18n.getLocalizedString("no_expressions_found_text");
+		let text = Popup.i18n.getLocalizedString("no_expressions_found_text");
 
 		return ElementBuilder.create(document)
 			.createElement('div')

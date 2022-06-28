@@ -6,7 +6,7 @@
  * This storage is lockable. When locked, reads from storage will return null, and
  * writes will have no effect. By default, the storage is unlocked.
  * */
-Find.register('Popup.Storage', function (self) {
+register('Popup.Storage', function (self) {
 
     const SAVED_EXPRESSIONS_KEY = 'expressions';
     const OPTIONS_KEY = 'options';
@@ -99,7 +99,7 @@ Find.register('Popup.Storage', function (self) {
      * clear operation is complete.
      * */
     self.clearStorage = function(callback) {
-        Find.browser.storage.local.clear(callback);
+        browser.storage.local.clear(callback);
     };
 
     /**
@@ -134,7 +134,7 @@ Find.register('Popup.Storage', function (self) {
             return callback(null);
         }
 
-        Find.browser.storage.local.get(key, (data) => {
+        browser.storage.local.get(key, (data) => {
             callback(data[key]);
         });
     }
@@ -154,7 +154,7 @@ Find.register('Popup.Storage', function (self) {
             let payload = {};
             payload[key] = data;
 
-            Find.browser.storage.local.set(payload, callback);
+            browser.storage.local.set(payload, callback);
         } else if(callback) {
             callback();
         }

@@ -3,7 +3,7 @@
 /**
  * Create the Popup BrowserAction namespace.
  * */
-Find.register('Popup.BrowserAction', function (self) {
+register('Popup.BrowserAction', function (self) {
 
     let initialized = false;
     let index = 0;
@@ -12,33 +12,33 @@ Find.register('Popup.BrowserAction', function (self) {
      * Register event handlers and initialize extension browser action.
      * */
     self.init = function() {
-        Find.Popup.BackgroundProxy.openConnection();
-        Find.Popup.BackgroundProxy.postMessage({action: 'action_init'});
+        Popup.BackgroundProxy.openConnection();
+        Popup.BackgroundProxy.postMessage({action: 'action_init'});
 
         document.body.addEventListener('keyup', (e) => {
             if(e.code === 'KeyO' && e.ctrlKey && e.altKey) {
                 //CTRL+ALT+O => Toggle Options Pane
-                Find.Popup.OptionsPane.toggle();
-                Find.Popup.ReplacePane.show(false);
-                Find.Popup.SavedExpressionsPane.show(false);
+                Popup.OptionsPane.toggle();
+                Popup.ReplacePane.show(false);
+                Popup.SavedExpressionsPane.show(false);
             } else if(e.code === 'KeyR' && e.ctrlKey && e.altKey) {
                 //CTRL+ALT+R => Toggle Replace Pane
-                Find.Popup.ReplacePane.toggle();
-                Find.Popup.OptionsPane.show(false);
-                Find.Popup.SavedExpressionsPane.show(false);
+                Popup.ReplacePane.toggle();
+                Popup.OptionsPane.show(false);
+                Popup.SavedExpressionsPane.show(false);
             } else if(e.code === 'KeyH' && e.ctrlKey && e.altKey) {
                 //CTRL+ALT+R => Toggle Replace Pane
-                Find.Popup.SavedExpressionsPane.toggle();
-                Find.Popup.OptionsPane.show(false);
-                Find.Popup.ReplacePane.show(false);
+                Popup.SavedExpressionsPane.toggle();
+                Popup.OptionsPane.show(false);
+                Popup.ReplacePane.show(false);
             }
         }, true);
 
         document.getElementById('popup-body').addEventListener('click', () => {
-            Find.Popup.SearchPane.focusSearchField();
+            Popup.SearchPane.focusSearchField();
         });
 
-        Find.Popup.SearchPane.focusSearchField();
+        Popup.SearchPane.focusSearchField();
     };
 
     /**
@@ -55,40 +55,40 @@ Find.register('Popup.BrowserAction', function (self) {
         let url = initInformation.activeTab.url;
 
         // this is the only time we have the active window hostname
-        Find.Popup.History.setHostname(new URL(url).hostname);
+        Popup.History.setHostname(new URL(url).hostname);
 
         if(isWithinChromeNamespace(url)) {
-            Find.Popup.MessagePane.showChromeNamespaceErrorMessage();
+            Popup.MessagePane.showChromeNamespaceErrorMessage();
             self.error('forbidden_url');
         } else if(isWithinWebStoreNamespace(url)) {
-            Find.Popup.MessagePane.showChromeWebStoreErrorMessage();
+            Popup.MessagePane.showChromeWebStoreErrorMessage();
             self.error('forbidden_url');
         } else if(isPDF(url)) {
-            Find.Popup.MessagePane.showPDFSearchErrorMessage();
+            Popup.MessagePane.showPDFSearchErrorMessage();
             self.error('pdf_unsupported');
         } else if(isLocalFile(url) && !initInformation.isReachable) {
-            Find.Popup.MessagePane.showOfflineFileErrorMessage();
+            Popup.MessagePane.showOfflineFileErrorMessage();
             self.error('offline_file');
         } else {
             if(initInformation.iframes > 0) {
-                Find.Popup.SearchPane.flashIframesFoundWarningIcon();
+                Popup.SearchPane.flashIframesFoundWarningIcon();
             }
 
             if(initInformation.selectedText) {
-                Find.Popup.SearchPane.setSearchFieldText(initInformation.selectedText);
-                Find.Popup.SearchPane.selectSearchField();
+                Popup.SearchPane.setSearchFieldText(initInformation.selectedText);
+                Popup.SearchPane.selectSearchField();
                 self.updateSearch();
             } else if(initInformation.regex != null) {
-                Find.Popup.SearchPane.setSearchFieldText(initInformation.regex);
-                Find.Popup.SearchPane.selectSearchField();
+                Popup.SearchPane.setSearchFieldText(initInformation.regex);
+                Popup.SearchPane.selectSearchField();
                 self.updateSearch();
             } else {
-                Find.Popup.History.retrieveForHost((expression) => {
+                Popup.History.retrieveForHost((expression) => {
                     if (expression) {
-                        Find.Popup.SearchPane.setSearchFieldText(expression);
+                        Popup.SearchPane.setSearchFieldText(expression);
                     }
 
-                    Find.Popup.SearchPane.selectSearchField();
+                    Popup.SearchPane.selectSearchField();
                     self.updateSearch();
                 });
             }
@@ -99,7 +99,7 @@ Find.register('Popup.BrowserAction', function (self) {
      * Close the extension.
      * */
     self.closeExtension = function() {
-        Find.Popup.BackgroundProxy.closeConnection();
+        Popup.BackgroundProxy.closeConnection();
         window.close();
     };
 
@@ -109,10 +109,10 @@ Find.register('Popup.BrowserAction', function (self) {
     self.updateSearch = function() {
         initialized = true;
 
-        let regex = Find.Popup.SearchPane.getSearchFieldText();
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'update', regex: regex, options: options});
-        Find.Popup.History.saveForHost(regex);
+        let regex = Popup.SearchPane.getSearchFieldText();
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'update', regex: regex, options: options});
+        Popup.History.saveForHost(regex);
     };
 
     /**
@@ -126,9 +126,9 @@ Find.register('Popup.BrowserAction', function (self) {
             return;
         }
 
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'next', options: options});
-        Find.Popup.SearchPane.focusSearchField();
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'next', options: options});
+        Popup.SearchPane.focusSearchField();
     };
 
     /**
@@ -142,27 +142,27 @@ Find.register('Popup.BrowserAction', function (self) {
             return;
         }
 
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'previous', options: options});
-        Find.Popup.SearchPane.focusSearchField();
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'previous', options: options});
+        Popup.SearchPane.focusSearchField();
     };
 
     /**
      * Replace the current occurrence with the text in the replace field, and seek to the next occurrence.
      * */
     self.replaceNext = function() {
-        let replaceWith = Find.Popup.ReplacePane.getReplaceFieldText();
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'replace_next', index: index, replaceWith: replaceWith, options: options});
+        let replaceWith = Popup.ReplacePane.getReplaceFieldText();
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'replace_next', index: index, replaceWith: replaceWith, options: options});
     };
 
     /**
      * Replace all occurrences with the text in the replace field.
      * */
     self.replaceAll = function() {
-        let replaceWith = Find.Popup.ReplacePane.getReplaceFieldText();
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'replace_all', replaceWith: replaceWith, options: options});
+        let replaceWith = Popup.ReplacePane.getReplaceFieldText();
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'replace_all', replaceWith: replaceWith, options: options});
     };
 
     /**
@@ -174,8 +174,8 @@ Find.register('Popup.BrowserAction', function (self) {
             return;
         }
 
-        let options = Find.Popup.OptionsPane.getOptions();
-        Find.Popup.BackgroundProxy.postMessage({action: 'follow_link', options: options});
+        let options = Popup.OptionsPane.getOptions();
+        Popup.BackgroundProxy.postMessage({action: 'follow_link', options: options});
     };
 
     /**
@@ -189,7 +189,7 @@ Find.register('Popup.BrowserAction', function (self) {
             return;
         }
 
-        Find.Popup.BackgroundProxy.postMessage({action: 'get_occurrence', options: options});
+        Popup.BackgroundProxy.postMessage({action: 'get_occurrence', options: options});
     };
 
     /**
@@ -199,9 +199,9 @@ Find.register('Popup.BrowserAction', function (self) {
      * */
     self.copyTextToClipboard = function(text) {
         navigator.clipboard.writeText(text).then(() => {
-            Find.Popup.SearchPane.flashClipboardCopyIcon();
+            Popup.SearchPane.flashClipboardCopyIcon();
         }).catch(() => {
-            Find.Popup.SearchPane.flashClipboardCopyErrorIcon();
+            Popup.SearchPane.flashClipboardCopyErrorIcon();
         });
     };
 
@@ -214,11 +214,11 @@ Find.register('Popup.BrowserAction', function (self) {
     self.updateIndex = function(newIndex, total) {
         index = newIndex;
 
-        Find.Popup.SearchPane.updateIndexText(index, total);
-        Find.Popup.SearchPane.showMalformedRegexIcon(false);
+        Popup.SearchPane.updateIndexText(index, total);
+        Popup.SearchPane.showMalformedRegexIcon(false);
 
-        Find.Popup.SearchPane.enableButtons(total !== 0);
-        Find.Popup.ReplacePane.enableButtons(total !== 0);
+        Popup.SearchPane.enableButtons(total !== 0);
+        Popup.ReplacePane.enableButtons(total !== 0);
     };
 
     /**
@@ -231,11 +231,11 @@ Find.register('Popup.BrowserAction', function (self) {
     self.error = function(reason) {
         index = 0;
 
-        Find.Popup.SearchPane.enableButtons(false);
-        Find.Popup.ReplacePane.enableButtons(false);
+        Popup.SearchPane.enableButtons(false);
+        Popup.ReplacePane.enableButtons(false);
 
-        Find.Popup.SearchPane.clearIndexText();
-        Find.Popup.SearchPane.showMalformedRegexIcon(reason === 'invalid_regex');
+        Popup.SearchPane.clearIndexText();
+        Popup.SearchPane.showMalformedRegexIcon(reason === 'invalid_regex');
     };
 
     /**
@@ -245,9 +245,9 @@ Find.register('Popup.BrowserAction', function (self) {
      * */
     self.showInstallUpdateDetails = function(details) {
         if(details.reason === 'install') {
-            Find.Popup.SearchPane.flashInstallInformationIcon();
+            Popup.SearchPane.flashInstallInformationIcon();
         } else if(details.reason === 'update') {
-            Find.Popup.SearchPane.flashUpdateInformationIcon();
+            Popup.SearchPane.flashUpdateInformationIcon();
         }
     };
 

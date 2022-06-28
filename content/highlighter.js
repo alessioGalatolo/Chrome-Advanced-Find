@@ -4,7 +4,7 @@
  * Create the Content Highlighter namespace. This component is injected into
  * the page and is used to highlight occurrences of a regex in the page.
  * */
-Find.register('Content.Highlighter', function(self) {
+register('Content.Highlighter', function(self) {
 
     const indexHighlight = 'find-ext-index-highlight';
     const allHighlight = 'find-ext-all-highlight';

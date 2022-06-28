@@ -3,7 +3,7 @@
 /**
  * Create the Popup SearchPane namespace.
  * */
-Find.register('Popup.SearchPane', function (self) {
+register('Popup.SearchPane', function (self) {
 
     /**
      * Register event handlers.
@@ -12,59 +12,59 @@ Find.register('Popup.SearchPane', function (self) {
         document.getElementById('search-field').addEventListener('keyup', (e) => {
             if(e.ctrlKey && e.shiftKey && e.key === 'Enter') {
                 //CTRL+SHIFT+ENTER => Enter Link
-                Find.Popup.BrowserAction.followLink();
+                Popup.BrowserAction.followLink();
             } else if((e.key === 'Enter' && e.shiftKey) || (e.key === 'F3' && e.shiftKey)) {
                 //SHIFT+ENTER => Previous Highlight (seek)
-                Find.Popup.BrowserAction.seekBackwards();
+                Popup.BrowserAction.seekBackwards();
             } else if(e.key === 'Escape' || (e.key === 'Enter' && e.ctrlKey)) {
                 //ESC OR CTRL+ENTER => Close Extension
-                Find.Popup.BrowserAction.closeExtension();
+                Popup.BrowserAction.closeExtension();
             } else if(e.key === 'Enter' || e.key === 'F3') {
                 //ENTER => Next Highlight (seek)
-                Find.Popup.BrowserAction.seekForwards();
+                Popup.BrowserAction.seekForwards();
             } else if(e.ctrlKey && e.altKey && e.code === 'KeyC') {
-                Find.Popup.BrowserAction.getOccurrence({cardinality: 'single'});
+                Popup.BrowserAction.getOccurrence({cardinality: 'single'});
             } else if(e.ctrlKey && e.altKey && e.code === 'KeyA') {
-                Find.Popup.BrowserAction.getOccurrence({cardinality: 'all'});
+                Popup.BrowserAction.getOccurrence({cardinality: 'all'});
             }
         }, true);
 
         document.getElementById('search-field').addEventListener('input', () => {
-            Find.Popup.BrowserAction.updateSearch();
+            Popup.BrowserAction.updateSearch();
         });
 
         document.getElementById('search-next-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.seekForwards();
+            Popup.BrowserAction.seekForwards();
         });
 
         document.getElementById('search-prev-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.seekBackwards();
+            Popup.BrowserAction.seekBackwards();
         });
 
         document.getElementById('search-toggle-options-button').addEventListener('click', () => {
-            Find.Popup.ReplacePane.show(false);
-            Find.Popup.SavedExpressionsPane.show(false);
-            Find.Popup.OptionsPane.toggle();
+            Popup.ReplacePane.show(false);
+            Popup.SavedExpressionsPane.show(false);
+            Popup.OptionsPane.toggle();
         }, true);
 
         document.getElementById('copy-text-to-clipboard-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.getOccurrence({cardinality: 'all'});
+            Popup.BrowserAction.getOccurrence({cardinality: 'all'});
         }, true);
 
         document.getElementById('saved-expressions-toggle-button').addEventListener('click', () => {
-            Find.Popup.ReplacePane.show(false);
-            Find.Popup.OptionsPane.show(false);
-            Find.Popup.SavedExpressionsPane.toggle();
+            Popup.ReplacePane.show(false);
+            Popup.OptionsPane.show(false);
+            Popup.SavedExpressionsPane.toggle();
         }, true);
 
         document.getElementById('find-replace-button').addEventListener('click', () => {
-            Find.Popup.SavedExpressionsPane.show(false);
-            Find.Popup.OptionsPane.show(false);
-            Find.Popup.ReplacePane.toggle();
+            Popup.SavedExpressionsPane.show(false);
+            Popup.OptionsPane.show(false);
+            Popup.ReplacePane.toggle();
         }, true);
 
         document.getElementById('close-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.closeExtension();
+            Popup.BrowserAction.closeExtension();
         });
     };
 

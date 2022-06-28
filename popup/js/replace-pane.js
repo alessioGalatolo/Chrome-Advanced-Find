@@ -3,18 +3,18 @@
 /**
  * Create the Popup ReplacePane namespace.
  * */
-Find.register('Popup.ReplacePane', function (self) {
+register('Popup.ReplacePane', function (self) {
 
     /**
      * Register event handlers.
      * */
     self.init = function() {
         document.getElementById('replace-next-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.replaceNext();
+            Popup.BrowserAction.replaceNext();
         });
 
         document.getElementById('replace-all-button').addEventListener('click', () => {
-            Find.Popup.BrowserAction.replaceAll();
+            Popup.BrowserAction.replaceAll();
         });
     };
 

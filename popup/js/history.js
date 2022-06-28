@@ -4,10 +4,10 @@
  * Create the Popup History namespace.
  *
  * This namespace is responsible for retrieving and persisting previous search
- * queries for specific hosts. It's mostly a facade for the Find.Popup.Storage
+ * queries for specific hosts. It's mostly a facade for the Popup.Storage
  * API that has caching capabilities and logic for pruning old history.
  * */
-Find.register('Popup.History', function (self) {
+register('Popup.History', function (self) {
 
 	let cachedHistory = null;
 	let currentHostname = null;
@@ -40,7 +40,7 @@ Find.register('Popup.History', function (self) {
 			return;
 		}
 
-		Find.Popup.Storage.retrieveHistory((history) => {
+		Popup.Storage.retrieveHistory((history) => {
 			if (history && history[currentHostname]) {
 				callback(history[currentHostname].expression);
 
@@ -81,9 +81,9 @@ Find.register('Popup.History', function (self) {
 
 			// prune and save
 			cachedHistory = prune(cachedHistory);
-			Find.Popup.Storage.saveHistory(cachedHistory, callback);
+			Popup.Storage.saveHistory(cachedHistory, callback);
 		} else {
-			Find.Popup.Storage.retrieveHistory((history) => {
+			Popup.Storage.retrieveHistory((history) => {
 				if (!history) {
 					history = {};
 				}
@@ -95,7 +95,7 @@ Find.register('Popup.History', function (self) {
 
 				history = prune(history);
 
-				Find.Popup.Storage.saveHistory(history, () => {
+				Popup.Storage.saveHistory(history, () => {
 					cachedHistory = history;
 					callback();
 				});

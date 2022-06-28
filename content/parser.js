@@ -12,7 +12,7 @@
  * Once the extension closes, the page is restored using the UUIDs from the
  * document representation object.
  * */
-Find.register('Content.Parser', function(self) {
+register('Content.Parser', function(self) {
 
 	/**
 	 * Walk the pages DOM tree and construct the document representation object, while
